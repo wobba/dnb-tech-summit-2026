@@ -32,7 +32,10 @@
   <p class="lead">More code. More choice.<br><span class="accent">What becomes scarce?</span></p>
   <p class="small">So, do we still need open source?</p>
   <p class="meta">Mikael Svenson<br>Search Architect · Microsoft</p>
-  <button class="intro-play" id="intro-play" type="button" aria-controls="intro-media">▶ Pull out a memory</button>
+  <div class="intro-controls">
+    <button class="intro-play" id="intro-play" type="button" aria-controls="intro-media">▶ Pull out a memory</button>
+    <button class="intro-play" id="theme-toggle" type="button">Switch theme</button>
+  </div>
   </div>
   
 </section>
@@ -556,15 +559,34 @@
   Reveal.on("fragmentshown", event => animateCounters(event.fragment));
   reducedMotion.addEventListener("change", finishCounters);
   window.addEventListener("beforeprint", finishCounters);
+  const themeToggle = document.getElementById("theme-toggle");
   // Generated backdrops are tuned for the dark stage theme; light mode keeps the plain surface.
-  if (document.documentElement.getAttribute("data-theme") === "dark") {
+  function updateTheme() {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeToggle.textContent = dark ? "Switch to light" : "Switch to dark";
     document.querySelectorAll("section[data-backdrop]").forEach(section => {
-      section.setAttribute("data-background-image", section.dataset.backdrop);
-      section.setAttribute("data-background-size", "cover");
-      section.setAttribute("data-background-opacity", section.dataset.backdropOpacity || "1");
-      section.classList.add("has-backdrop");
+      if (dark) {
+        section.setAttribute("data-background-image", section.dataset.backdrop);
+        section.setAttribute("data-background-size", "cover");
+        section.setAttribute("data-background-opacity", section.dataset.backdropOpacity || "1");
+      } else {
+        section.removeAttribute("data-background-image");
+        section.removeAttribute("data-background-size");
+        section.removeAttribute("data-background-opacity");
+      }
+      section.classList.toggle("has-backdrop", dark);
     });
   }
+  updateTheme();
+  themeToggle.addEventListener("click", () => {
+    const theme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    const url = new URL(location.href);
+    url.searchParams.set("clawpilotTheme", theme);
+    history.replaceState(history.state, "", url);
+    updateTheme();
+    Reveal.sync();
+  });
   Reveal.initialize({
     width: 1280, height: 720, margin: 0.06,
     hash: true, controls: true, progress: true, center: false,

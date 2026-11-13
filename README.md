@@ -15,6 +15,9 @@ This folder contains the 35-slide presentation without speaker notes.
 Open `index.html` in a browser. Use arrow keys to navigate, `Esc` for the
 overview and `F` for fullscreen. On the first slide, click "Pull out a memory"
 to play the muted intro clip.
+Use "Switch to light/dark" beside it to change the theme. The system theme is
+the default; your selection is kept in the URL across reloads. These controls
+are hidden when printing.
 
 For web sharing, this folder is published as the root of a GitHub Pages site.
 All presentation assets are local; no build step or CDN is required.

@@ -74,6 +74,7 @@ body, .reveal { background: var(--cp-bg); color: var(--cp-text); }
   -webkit-mask-image: radial-gradient(circle, black 58%, transparent 71%); mask-image: radial-gradient(circle, black 58%, transparent 71%); }
 .intro-media.playing .intro-portrait { opacity: 0; }
 .intro-media.playing .intro-video { opacity: 1; }
+.intro-controls { display: flex; flex-wrap: wrap; gap: 12px; }
 .intro-play { font: inherit; font-size: 20px; color: var(--cp-text); background: var(--cp-surface); border: 1px solid var(--cp-border-strong); border-radius: 10px; padding: 12px 16px; cursor: pointer; }
 .intro-play:focus-visible { outline: 3px solid var(--cp-accent); outline-offset: 4px; }
 .repo-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -336,7 +337,7 @@ html.print-pdf .pdf-page {
   print-color-adjust: exact;
 }
 @media print {
-  .intro-play, .intro-video { display: none; }
+  .intro-controls, .intro-play, .intro-video { display: none; }
   .reveal .slides * { animation: none !important; }
   .reveal .slides section { print-color-adjust: exact; }
   .reveal .source { font-size: 18px; }
