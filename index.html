@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open source after the agent acceleration — DNB</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <link rel="stylesheet" href="vendor/dist/reset.css">
+  <link rel="stylesheet" href="vendor/dist/reveal.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="intro-slide" data-beat="Look back" data-chapter="Fixed it">
+  <figure class="intro-media" id="intro-media">
+    <img class="intro-portrait" src="assets/mikael-pensieve-transparent.png" alt="Mikael Svenson holding a wand beside his head">
+    <video class="intro-video" muted playsinline preload="auto" aria-label="Ten-second pensieve animation">
+      <source src="assets/mikael-pensieve.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <div class="intro-copy">
+  <p class="eyebrow">DNB Tech Summit · Oslo · 12 November 2026</p>
+  <h1>Open source after<br>the agent acceleration</h1>
+  <p class="lead">More code. More choice.<br><span class="accent">What becomes scarce?</span></p>
+  <p class="small">So, do we still need open source?</p>
+  <p class="meta">Mikael Svenson<br>Search Architect · Microsoft</p>
+  <button class="intro-play" id="intro-play" type="button" aria-controls="intro-media">▶ Pull out a memory</button>
+  </div>
+  
+</section>
+
+<section class="personal-timeline" data-beat="Look back" data-chapter="Fixed it">
+  <p class="eyebrow">My side project · PnP Modern Search · ~14,000 Microsoft 365 tenants a month</p>
+  <h2>“Now I have time<br>to actually fix it.”</h2>
+  <div class="flow"><span>Requested</span><b>→</b><span>Deferred</span><b>→</b><span class="focus">Agent + review</span><b>→</b><span>Useful change</span></div>
+  <figure class="activity-timeline">
+    <svg viewBox="0 0 1160 240" role="img" aria-labelledby="activity-title activity-description">
+      <title id="activity-title">PnP Modern Search monthly pull requests, January 2025 to October 2026</title>
+      <desc id="activity-description">PRs opened by non-bot accounts. Monthly counts: 5, 8, 3, 3, 16, 3, 3, 1, 0, 10, 14, 20, 10, 9, 6, 18, 23, 17, 22, 18, 19, 31. October 2025 marks when Mikael started agent-led project work.</desc>
+      <text x="12" y="24" class="chart-label">PnP Modern Search · PRs opened / month · non-bot accounts</text>
+      <path d="M12 190H1148" class="chart-axis"/>
+      <g class="activity-before">
+        <rect x="28" y="167.5" width="32" height="22.5"/><rect x="78" y="154" width="32" height="36"/>
+        <rect x="128" y="176.5" width="32" height="13.5"/><rect x="178" y="176.5" width="32" height="13.5"/>
+        <rect x="228" y="118" width="32" height="72"/><rect x="278" y="176.5" width="32" height="13.5"/>
+        <rect x="328" y="176.5" width="32" height="13.5"/><rect x="378" y="185.5" width="32" height="4.5"/>
+      </g>
+      <g class="activity-after">
+        <rect x="478" y="145" width="32" height="45"/><rect x="528" y="127" width="32" height="63"/>
+        <rect x="578" y="100" width="32" height="90"/><rect x="628" y="145" width="32" height="45"/>
+        <rect x="678" y="149.5" width="32" height="40.5"/><rect x="728" y="163" width="32" height="27"/>
+        <rect x="778" y="109" width="32" height="81"/><rect x="828" y="86.5" width="32" height="103.5"/>
+        <rect x="878" y="113.5" width="32" height="76.5"/><rect x="928" y="91" width="32" height="99"/>
+        <rect x="978" y="109" width="32" height="81"/><rect x="1028" y="104.5" width="32" height="85.5"/>
+        <rect x="1078" y="50.5" width="32" height="139.5"/>
+      </g>
+      <path d="M468 60V195" class="agent-marker"/>
+      <text x="482" y="59" class="agent-label">Oct 2025: I put agents to work</text>
+      <g class="chart-label">
+        <text x="28" y="219">Jan ’25</text><text x="228" y="219">May</text>
+        <text x="478" y="219">Oct</text><text x="628" y="219">Jan ’26</text>
+        <text x="828" y="219">May</text><text x="1078" y="219">Oct</text>
+      </g>
+    </svg>
+    <figcaption>10 releases: 25 months before Oct 2025 → 13 months since · GitHub, 4 Nov 2026</figcaption>
+  </figure>
+  
+</section>
+
+<section class="cue" data-beat="Start local demo" data-chapter="Fixed it">
+  <p class="eyebrow">Live agent · launch, then leave it working</p>
+  <h2>Let it build.<br>We will review.</h2>
+  <div class="rig-row">
+    <div>
+      <blockquote class="demo-brief">“Start fresh. Build a one-minute browser demo<br>with music and old-school graphics.<br>Make the music with ComfyUI. Use an MIT library.<br>Draw D → N → B. Document reuse in REUSE.md.<br>Inspect headlessly, muted. Improve. Deliver a play link.”</blockquote>
+      <p class="small">Local model · running at home right now<br>Full brief: <span>agent1/PROMPT.md (live demo)</span></p>
+      <div class="flow"><span>Bounded brief</span><b>→</b><span>Build</span><b>→</b><span>Inspect</span><b>→</b><span>Revise</span></div>
+    </div>
+    <figure class="rig-photo">
+      <img src="assets/rig-home.jpg" alt="Mikael's home PC with a GeForce RTX graphics card, part of the rig that runs the local model.">
+      <figcaption>Home rig · GX10 · RTX 5090 + 4060 Ti</figcaption>
+    </figure>
+  </div>
+  
+</section>
+
+<section class="chapter-break chapter-scale" data-beat="Chapter" data-chapter="Scale">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 150H1280"/><g class="cb-dot"><circle cx="160" cy="150" r="8"/><circle cx="360" cy="150" r="11"/><circle cx="560" cy="150" r="15"/><circle cx="760" cy="150" r="20"/><circle cx="960" cy="150" r="26"/><circle cx="1160" cy="150" r="34"/></g></svg>
+  <p class="chapter-num">01 · What changed</p>
+  <h2>It was not<br>just me.</h2>
+  
+</section>
+
+<section class="growth-slide" data-beat="Scale" data-chapter="Scale">
+  <p class="eyebrow">What happened · GitHub Octoverse 2026</p>
+  <h2>More changes are landing.<br><span class="accent">Does this pace continue?</span></h2>
+  <svg class="growth-chart" viewBox="0 0 1160 310" role="img" aria-labelledby="growth-title growth-desc">
+    <title id="growth-title">Annual merged pull requests, 2024–2026, with a conditional 2027 scenario</title>
+    <desc id="growth-desc">Linear scale starting at zero. Measured totals: 402 million in 2024, 538 million in 2025, 1.3 billion in 2026. A dashed extension to approximately 3.1 billion in 2027 illustrates repeating the 2025–2026 growth factor, not a forecast. Public and private repositories; years end September 30.</desc>
+    <g class="growth-grid"><path d="M88 270H1130M88 200H1130M88 130H1130M88 60H1130"/></g>
+    <g class="growth-label"><text x="20" y="277">0</text><text x="20" y="207">1B</text><text x="20" y="137">2B</text><text x="20" y="67">3B</text></g>
+    <g class="growth-history"><rect x="150" y="241.86" width="130" height="28.14"/><rect x="370" y="232.34" width="130" height="37.66"/></g>
+    <rect class="growth-current" x="590" y="179" width="130" height="91"/>
+    <g class="growth-value"><text x="215" y="227">402M</text><text x="435" y="217">538M</text><text x="655" y="164">1.3B</text></g>
+    <path class="growth-scenario" d="M720 179L975 50.11"/>
+    <path class="growth-arrow" d="M962 48L975 50.11L969 63"/>
+    <text class="scenario-value" x="1000" y="46">≈3.1B?</text>
+    <text class="growth-label" x="845" y="175">Same growth again?</text>
+    <text class="growth-label" x="845" y="200">Scenario, not forecast</text>
+    <path class="report-pointer" d="M560 65L636 139M622 135L636 139L633 125"/>
+    <text class="report-label" x="420" y="49">Oct ’26 report: +142% YoY</text>
+    <g class="growth-year"><text x="215" y="302">2024</text><text x="435" y="302">2025</text><text x="655" y="302">2026</text><text x="975" y="302">2027?</text></g>
+  </svg>
+  <p class="small">Merged PRs · public + private · linear scale from zero<br>Measured years end 30 September.</p>
+  <p class="source"><a href="https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/">GitHub Octoverse 2026 · annual periods ending 30 September</a></p>
+  
+</section>
+
+<section data-beat="Scale" data-chapter="Scale">
+  <p class="eyebrow">First drafts changed</p>
+  <h2>More than 40% of PRs<br>started with an agent.</h2>
+  <div class="bars">
+    <div><span>March 2026</span><i style="--bar:34%"></i><b>17%</b></div>
+    <div><span>September 2026</span><i style="--bar:80%"></i><b>&gt;40%</b></div>
+  </div>
+  <p class="small">Agent-started first drafts · all GitHub repository types</p>
+  <p class="source"><a href="https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/">Octoverse 2026 · September: 110M agent-started PRs</a></p>
+  
+</section>
+
+<section data-beat="Scale" data-chapter="Scale">
+  <p class="eyebrow">New projects, too</p>
+  <h2>More starts.<br>Who keeps them going?</h2>
+  <div class="stat-line"><strong class="rolling-stat" aria-label="Approximately 55 percent">~<span data-count-to="55" aria-hidden="true">55</span><span aria-hidden="true">%</span></strong><p>of commits from June onward<br>came from brand-new repositories.</p></div>
+  <div class="flow"><span>Create</span><b>≠</b><span>Adopt</span><b>≠</b><span>Maintain</span></div>
+  <p class="source"><a href="https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/">Octoverse 2026 · share of commits, not growth in durable OSS projects</a></p>
+  
+</section>
+
+<section class="repo-slide" data-beat="Personal case" data-chapter="Scale">
+  <p class="eyebrow">Established projects + a new app family</p>
+  <h2>More proposed changes.<br><span class="accent">Not always more people.</span></h2>
+  <div class="repo-tables" data-count-once>
+    <table class="repo-history"><caption>Established projects · annual activity¹</caption>
+      <thead><tr><th scope="col" rowspan="2">Year</th><th scope="colgroup" colspan="2">PnP Modern Search</th><th scope="colgroup" colspan="2">Ruff</th></tr>
+      <tr><th scope="col">PRs</th><th scope="col">PR authors</th><th scope="col">PRs</th><th scope="col">PR authors</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">2024</th><td data-count-to="101">101</td><td data-count-to="25">25</td><td data-count-to="2932">2,932</td><td data-count-to="319">319</td></tr>
+      <tr><th scope="row">2025</th><td data-count-to="86">86</td><td data-count-to="18">18</td><td data-count-to="4375">4,375</td><td data-count-to="319">319</td></tr>
+      <tr class="accent"><th scope="row">2026*</th><td data-count-to="175">175</td><td data-count-to="18">18</td><td data-count-to="5736">5,736</td><td data-count-to="581">581</td></tr>
+      </tbody>
+    </table>
+    <table class="repo-arrival fragment"><caption>Craft apps · repos 5–6 weeks old · PRs through 12 Nov 2026¹</caption>
+      <thead><tr><th scope="col">App</th><th scope="col">PRs</th><th scope="col">PR authors</th><th scope="col">Merged</th><th scope="col">Still open</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">PhotoCraft</th><td data-count-to="6445">6,445</td><td data-count-to="926">926</td><td data-count-to="4265">4,265</td><td data-count-to="1295">1,295</td></tr>
+      <tr><th scope="row">WordCraft</th><td data-count-to="3513">3,513</td><td data-count-to="564">564</td><td data-count-to="1711">1,711</td><td data-count-to="1334">1,334</td></tr>
+      <tr><th scope="row">GridCraft</th><td data-count-to="2129">2,129</td><td data-count-to="430">430</td><td data-count-to="989">989</td><td data-count-to="952">952</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="small">¹ Excludes bots; counts are lifetime, not annual.<br>*2026 through 2 Nov; 2024–2025 full years.</p>
+  <p class="source"><a href="https://github.com/microsoft-search/pnp-modern-search/pulls">PnP</a> · <a href="https://github.com/astral-sh/ruff/pulls">Ruff</a> · 2 Nov · Craft apps: <a href="https://github.com/storytold/photocraft/pulls">Photo</a> / <a href="https://github.com/storytold/wordcraft/pulls">Word</a> / <a href="https://github.com/storytold/gridcraft/pulls">Grid</a> · 12 Nov 2026 · GitHub REST</p>
+  
+</section>
+
+<section class="chapter-break chapter-fork" data-backdrop="assets/img/slide-09.jpg" data-beat="Chapter" data-chapter="Contribute">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 150H1280"/><path class="cb-branch" d="M420 150C540 150 560 250 680 250H1280"/><g class="cb-dot"><circle cx="220" cy="150" r="12"/><circle cx="420" cy="150" r="12"/><circle cx="860" cy="150" r="12"/><circle cx="1100" cy="150" r="12"/></g><g class="cb-dot cb-acc"><circle cx="760" cy="250" r="14"/><circle cx="1000" cy="250" r="14"/></g></svg>
+  <p class="chapter-num">02 · Open source</p>
+  <h2>Contribute<br>or fork?</h2>
+  <p class="chapter-me">Two PRs upstream. One accepted. One declined.</p>
+  
+</section>
+
+<section data-beat="Contribution" data-chapter="Contribute">
+  <p class="eyebrow">What a maintainer asks · from my side of the PR</p>
+  <h2>Cheap to propose.<br><span class="accent">Not cheap to accept.</span></h2>
+  <div class="word-stack"><span>Does it <b>fit</b>?</span><span>Does it <b>work</b>?</span><span>Who <b>maintains</b> it?</span></div>
+  
+</section>
+
+<section class="quote-slide" data-beat="Ownership" data-chapter="Contribute">
+  <p class="eyebrow">What stays with us</p>
+  <blockquote class="big-quote">Cheaper code changes the work.<br><span class="accent">It does not remove ownership<br>of the problem.</span></blockquote>
+  <div class="word-row"><span>Understand the problem</span><span>Check the result</span><span>Set limits</span><span>Own the change</span></div>
+  
+</section>
+
+<section data-beat="Contribution" data-chapter="Contribute">
+  <p class="eyebrow">A contributor's experience · personal account</p>
+  <h2>My agent could build it.<br>Upstream said no.</h2>
+  <svg class="fork-graph" viewBox="0 0 1160 250" role="img" aria-labelledby="fork-title">
+    <title id="fork-title">Upstream keeps adding security fixes and features while my fork diverges. Each fix I do not bring across leaves my fork less secure, until it goes stale.</title>
+    <defs><linearGradient id="fg-stale" gradientUnits="userSpaceOnUse" x1="880" y1="0" x2="1140" y2="0"><stop offset="0" class="fg-stale-a"/><stop offset="1" class="fg-stale-b"/></linearGradient></defs>
+    <path class="fg-main" d="M20 70H1140"/>
+    <path class="fg-fork" d="M240 70C320 70 330 190 410 190H1140"/>
+    <g class="fg-up"><circle cx="100" cy="70" r="12"/><circle cx="240" cy="70" r="12"/><circle cx="560" cy="70" r="12"/><circle cx="800" cy="70" r="12"/><circle cx="1040" cy="70" r="12"/></g>
+    <g class="fg-mine"><circle cx="470" cy="190" r="14"/><circle cx="900" cy="190" r="14"/></g>
+    <g class="fg-pull"><path d="M560 84L620 172M800 84L860 172M1040 84L1100 172"/></g>
+    <g class="fg-label"><text x="20" y="34">upstream</text><text x="560" y="34">security fix</text><text x="800" y="34">new feature</text><text x="1040" y="34">fix</text>
+      <text x="420" y="240">my change</text><text x="20" y="200" class="fg-me">my fork</text><text x="610" y="240" class="fg-q">Missed fixes → my fork goes stale</text></g>
+  </svg>
+  <p class="lead">Freedom to fork.<br><span class="accent">Responsibility to keep it useful.</span></p>
+  
+</section>
+
+<section data-beat="Contribution" data-chapter="Contribute">
+  <p class="eyebrow">Why I still contribute</p>
+  <h2>You use their work.<br><span class="accent">Let them benefit from yours.</span></h2>
+  <div class="word-row"><span>A fix</span><span>A test</span><span>An explanation</span><span>A good issue</span></div>
+  <p class="lead">More contributors.<br><span class="accent">Perspectives beyond your own team.</span></p>
+  <p class="small">My first: memory-mapped data structures · CodePlex, 2009 → adapted on GitHub, 2014 → unmaintained, 2016</p>
+  <p class="source"><a href="https://web.archive.org/web/20091120202114/http://mmf.codeplex.com/">CodePlex archive, Nov 2009</a> · <a href="https://github.com/buybackoff/MMDataStructures">buybackoff/MMDataStructures</a></p>
+  
+</section>
+
+<section data-backdrop="assets/img/slide-14.jpg" class="chapter-break chapter-trust" data-beat="Chapter" data-chapter="Trust">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 150H1280"/><path class="cb-branch" d="M300 250H600C700 250 720 150 820 150"/><rect class="cb-gate" x="640" y="200" width="24" height="100" rx="6"/><g class="cb-dot"><circle cx="160" cy="150" r="12"/><circle cx="820" cy="150" r="16"/><circle cx="1080" cy="150" r="12"/></g><g class="cb-dot cb-acc"><circle cx="400" cy="250" r="14"/></g></svg>
+  <p class="chapter-num">03 · Open source</p>
+  <h2>What must<br>we trust?</h2>
+  <p class="chapter-me">Our MIT project shipped a GPL component. A person caught it, not a tool.</p>
+  
+</section>
+
+<section class="security-slide" data-beat="Security evidence" data-chapter="Trust">
+  <p class="eyebrow">Security · benchmark evidence, not a forecast</p>
+  <h2>Security cuts <span class="accent">both ways.</span></h2>
+  <div class="cards security-cards">
+    <article>
+      <p class="eyebrow">Existing vulnerabilities</p>
+      <h3>Agents can help find and fix</h3>
+      <p>CyberGym-E2E tested 920 historical vulnerabilities across 139 projects. Discovery remained challenging; patching was more successful.</p>
+      <p class="source"><a href="https://proceedings.mlr.press/v306/shi26r.html">ICML 2026 · CyberGym-E2E</a></p>
+    </article>
+    <article>
+      <p class="eyebrow">Generated code</p>
+      <h3>Still needs security review</h3>
+      <p>On SecureVibeBench, the best tested setup produced functionally correct and secure solutions for 23.8% of tasks.</p>
+      <p class="source"><a href="https://arxiv.org/abs/2509.22097">ACL 2026 · SecureVibeBench</a></p>
+    </article>
+  </div>
+  <p class="small">Benchmarks show capability and failure—not a rise in real-world vulnerabilities or proof of malicious intent.</p>
+  
+</section>
+
+<section data-beat="Controls" data-chapter="Trust">
+  <p class="eyebrow">Security · one PR, two checks</p>
+  <h2>Review the code.<br><span class="accent">Control the packages.</span></h2>
+  <svg class="lanes" viewBox="0 0 1160 270" role="img" aria-labelledby="lanes-title">
+    <title id="lanes-title">One agent pull request splits into two checks: code we change, reviewed by an owner; code we bring in, checked through a feed proxy with package policies, scans and license checks.</title>
+    <rect class="ln-pr" x="20" y="95" width="220" height="80" rx="16"/>
+    <text class="ln-strong" x="130" y="130">Agent PR</text><text class="ln-soft" x="130" y="158">feature + package</text>
+    <path class="ln-path" d="M240 135C320 135 320 55 400 55H1130M240 135C320 135 320 215 400 215H1130"/>
+    <text class="ln-head" x="420" y="40">Code we change</text><text class="ln-soft ln-left" x="420" y="92">behavior · data access · tests → reviewer + owner</text>
+    <text class="ln-head ln-alt" x="420" y="200">Code we bring in</text><text class="ln-soft ln-left" x="420" y="252">packages + dependencies</text>
+    <rect class="ln-pr" x="760" y="170" width="370" height="96" rx="16"/>
+    <text class="ln-strong" x="945" y="208">Feed proxy</text>
+    <text class="ln-soft" x="945" y="246">policy · scans · licenses</text>
+  </svg>
+  <p class="lead">The feed proxy controls what comes in.<br>It does not review our feature.</p>
+  
+</section>
+
+<section data-beat="Controls" data-chapter="Trust">
+  <p class="eyebrow">Microsoft internal package policy · the general pattern</p>
+  <h2>Do not race to install<br>the newest package.</h2>
+  <svg class="gate" viewBox="0 0 1160 210" role="img" aria-labelledby="gate-title">
+    <title id="gate-title">A new package version is published, waits in a hold period where problems can be found, then becomes available to developers, agents and builds. Concept, no specific duration.</title>
+    <defs><pattern id="hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V14" class="gate-hatch"/></pattern></defs>
+    <path class="gate-axis" d="M20 110H1140"/>
+    <rect class="gate-hold" x="300" y="60" width="440" height="100" fill="url(#hatch)"/>
+    <circle class="gate-dot" cx="140" cy="110" r="16"/><circle class="gate-dot gate-ok" cx="900" cy="110" r="16"/>
+    <path class="gate-warn" d="M520 72L548 122H492Z"/>
+    <g class="gate-label"><text x="140" y="190">published</text><text x="520" y="190">hold · time to detect</text><text x="900" y="190">developers · agents · builds</text><text x="520" y="45" class="gate-flag">problem found here</text></g>
+  </svg>
+  <p class="lead">A release-age gate buys detection time.<br><span class="accent">It does not certify safety.</span></p>
+  <p class="source"><a href="https://pnpm.io/settings/dependency-resolution#minimumreleaseage">Public mechanism reference: pnpm minimumReleaseAge</a></p>
+  
+</section>
+
+<section class="chapter-break chapter-model" data-beat="Chapter" data-chapter="Models">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 250H1280"/><path class="cb-branch" d="M300 250C420 250 440 110 560 110H1280"/><g class="cb-dot"><circle cx="160" cy="250" r="12"/><circle cx="300" cy="250" r="12"/></g><g class="cb-dot cb-acc"><circle cx="700" cy="110" r="14"/><circle cx="920" cy="110" r="14"/><circle cx="1140" cy="110" r="14"/></g></svg>
+  <p class="chapter-num">Branch · models</p>
+  <h2>The model is<br>a dependency too.</h2>
+  
+</section>
+
+<section data-beat="Model choice" data-chapter="Models">
+  <p class="eyebrow">// what is actually open?</p>
+  <h2>“Open source” LLM?<br>Read what is actually open.</h2>
+  <svg class="stack-art" viewBox="0 0 1160 250" role="img" aria-labelledby="stack-title">
+    <title id="stack-title">Three layers of a model release: runtime code, model weights, and training code and data. Each can have different openness and license terms.</title>
+    <g class="sa-layer"><path d="M250 40L580 10L960 40L580 70Z"/><path d="M250 110L580 80L960 110L580 140Z"/><path d="M250 180L580 150L960 180L580 210Z"/></g>
+    <g class="sa-label"><text x="40" y="48">code</text><text x="40" y="118">weights</text><text x="40" y="188">training data</text></g>
+    <g class="sa-check"><text x="1000" y="48">open?</text><text x="1000" y="118">license?</text><text x="1000" y="188">disclosed?</text></g>
+  </svg>
+  <p class="small">Downloadable does not mean unrestricted.<br>Some licenses limit who, where and what for: <span class="accent">check before production.</span></p>
+  <p class="source"><a href="https://opensource.org/ai/open-source-ai-definition">OSI Open Source AI Definition 1.0</a></p>
+  
+</section>
+
+<section data-beat="Model choice" data-chapter="Models">
+  <p class="eyebrow">// my setup · a choice, not a religion</p>
+  <h2>My desk is not<br>a hyperscale region.</h2>
+  <div class="desk-photo-row">
+    <div class="desk-lists">
+      <p class="da-head">local gives me</p>
+      <ul class="desk-list"><li>control of execution</li><li>no hosted model API</li><li>a fixed hardware envelope</li></ul>
+      <p class="da-head">I also own</p>
+      <ul class="desk-list"><li>capacity + updates</li><li>power + recovery</li><li>quality + safety</li></ul>
+    </div>
+    <figure class="desk-photo">
+      <img src="assets/desk-gx10.jpg" alt="Mikael's home desk. A green box marks the small ASUS GX10 that runs the open-weight model.">
+      <figcaption>The GX10 on my desk</figcaption>
+    </figure>
+  </div>
+  
+</section>
+
+<section data-beat="Model choice" data-chapter="Models">
+  <p class="eyebrow">// coding agents · route by measured success</p>
+  <h2>Route the coding task.<br>Test the whole loop.</h2>
+  <svg class="route-art" viewBox="0 0 1160 280" role="img" aria-labelledby="route-title">
+    <title id="route-title">A coding task goes to a router with evaluations. Bounded edits with clear tests go to a model suited to the task; unfamiliar systems can require a more capable model; ambiguity stops with a person. Local hosting does not determine speed or capability.</title>
+    <rect class="ra-node" x="20" y="100" width="190" height="70" rx="12"/><text class="ra-t" x="115" y="143">coding task</text>
+    <rect class="ra-hub" x="300" y="90" width="210" height="90" rx="12"/><text class="ra-t" x="405" y="132">router</text><text class="ra-s" x="405" y="160">+ evals</text>
+    <path class="ra-line" d="M210 135H300M510 135C570 135 570 40 640 40H700M510 135H700M510 135C570 135 570 230 640 230H700"/>
+    <g class="ra-t ra-left"><text x="720" y="44">model suited to the task</text><text x="720" y="139">more capable model</text><text x="720" y="234">a person</text></g>
+    <g class="ra-s ra-left"><text x="720" y="78">bounded edit + clear tests</text><text x="720" y="173">unfamiliar system</text><text x="720" y="268">ambiguity · risk</text></g>
+  </svg>
+  <p class="lead">Can it use tools, recover and prove the change?</p>
+  
+</section>
+
+<section data-beat="Resilience" data-chapter="Models">
+  <p class="eyebrow">// geopolitics · access · service stability</p>
+  <h2>Local or hosted:<br>what do we depend on?</h2>
+  <div class="word-row big"><span>Access</span><span>Continuity</span><span>Control</span></div>
+  <p class="small">Terms · regions · outages · quotas · retirement · data paths</p>
+  
+</section>
+
+<section data-beat="Resilience" data-chapter="Models">
+  <p class="eyebrow">// a proposed design rule</p>
+  <h2>Portable interface.<br>Tested behavior.</h2>
+  <svg class="route-art" viewBox="0 0 1160 230" role="img" aria-labelledby="port-title">
+    <title id="port-title">Task and policy connect through one adapter with evaluations to provider A, provider B, or a local model.</title>
+    <rect class="ra-node" x="20" y="80" width="230" height="70" rx="12"/><text class="ra-t" x="135" y="123">task + policy</text>
+    <rect class="ra-hub" x="360" y="70" width="270" height="90" rx="12"/><text class="ra-t" x="495" y="112">adapter</text><text class="ra-s" x="495" y="140">+ the same evals</text>
+    <path class="ra-line" d="M250 115H360M630 115C690 115 690 30 760 30H800M630 115H800M630 115C690 115 690 200 760 200H800"/>
+    <g class="ra-t ra-left"><text x="820" y="38">provider A</text><text x="820" y="123">provider B</text><text x="820" y="208">local model</text></g>
+  </svg>
+  <p class="lead">A compatible API is not<br><span class="accent">compatible behavior.</span></p>
+  
+</section>
+
+<section class="chapter-break chapter-merge" data-backdrop="assets/img/slide-23.jpg" data-beat="Chapter" data-chapter="Maintain">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 150H1280"/><path class="cb-branch" d="M200 150C320 150 340 250 460 250H700C820 250 840 150 960 150"/><g class="cb-dot"><circle cx="200" cy="150" r="12"/><circle cx="960" cy="150" r="18"/><circle cx="1160" cy="150" r="12"/></g><g class="cb-dot cb-acc"><circle cx="560" cy="250" r="14"/></g></svg>
+  <p class="chapter-num">04 · Open source</p>
+  <h2>Who maintains —<br>and who learns?</h2>
+  
+</section>
+
+<section class="review-cue" data-beat="Review demo" data-chapter="Maintain">
+  <p class="eyebrow">Back to the work · reuse, evidence and ownership</p>
+  <h2>What did it reuse?<br>What do we accept?</h2>
+  <div class="word-row big"><span>Observe</span><span>Challenge</span><span>Decide</span></div>
+  <p class="small">Open REUSE.md · which library · which license · which notices · what it built itself</p>
+  
+</section>
+
+<section data-beat="Next year" data-chapter="Maintain">
+  <p class="eyebrow">What may come next</p>
+  <h2>More creation seems likely.<br>What can we maintain?</h2>
+  <svg class="concept-graphic" viewBox="0 0 1160 230" role="img" aria-labelledby="absorb-title">
+    <title id="absorb-title">More proposed changes pass through a limited review capacity into maintained software. Concept, not measured data.</title>
+    <g class="proposal-stream"><rect x="30" y="35" width="70" height="24"/><rect x="145" y="75" width="70" height="24"/><rect x="65" y="115" width="70" height="24"/><rect x="180" y="155" width="70" height="24"/><rect x="270" y="50" width="70" height="24"/><rect x="300" y="130" width="70" height="24"/></g>
+    <path class="diagram-line" d="M385 35L560 85V145L385 195M560 115H810"/>
+    <path class="diagram-arrow" d="M795 103L810 115L795 127"/>
+    <rect class="maintained-block" x="850" y="55" width="250" height="120" rx="16"/>
+    <g class="diagram-label"><text x="180" y="220">Proposed changes</text><text x="590" y="220">Review capacity</text><text x="975" y="105">Maintained</text><text x="975" y="139">software</text></g>
+  </svg>
+  
+</section>
+
+<section data-beat="Next year" data-chapter="Maintain">
+  <p class="eyebrow">Three plausible paths · next 6–12 months</p>
+  <h2>More experiments.<br>Fewer long-term commitments.</h2>
+  <div class="cards three scenario-cards">
+    <article><svg viewBox="0 0 160 80" aria-hidden="true"><path d="M10 65L55 52L95 32L145 10M120 10H145V35"/></svg><h3>Accelerate</h3><p>More projects<br>More proposed changes</p></article>
+    <article><svg viewBox="0 0 160 80" aria-hidden="true"><path d="M15 20H65V60H145M15 40H45M95 10V70M110 10V70"/></svg><h3>Constrain</h3><p>Trust gates<br>Review budgets</p></article>
+    <article><svg viewBox="0 0 160 80" aria-hidden="true"><path d="M10 10L70 40M10 70L70 40M10 40H70H145"/><circle cx="95" cy="40" r="15"/></svg><h3>Consolidate</h3><p>Converge on<br>shared foundations</p></article>
+  </div>
+  <p class="small">These can happen together. Watch merge time, rework,<br>maintainer load and repeat contributors—not only PR volume.</p>
+  
+</section>
+
+<section data-beat="People" data-chapter="Maintain">
+  <p class="eyebrow">Open source needs its next maintainers</p>
+  <h2>Less typing is not<br>less engineering.</h2>
+  <svg class="ladder" viewBox="0 0 1160 240" role="img" aria-labelledby="ladder-title">
+    <title id="ladder-title">The open-source learning path: use, contribute, review, maintain, mentor. The first step is where agents now take much of the practice work.</title>
+    <path class="ld-steps" d="M20 220H240V175H460V130H680V85H900V40H1140"/>
+    <g class="ld-t"><text x="130" y="205">use</text><text x="350" y="160">contribute</text><text x="570" y="115">review</text><text x="790" y="70">maintain</text><text x="1020" y="25">mentor</text></g>
+    <circle class="ld-q" cx="130" cy="140" r="34"/><text class="ld-qt" x="130" y="152">?</text>
+  </svg>
+  <p class="lead">If agents do the practice work,<br><span class="accent">how do we grow the next maintainer?</span></p>
+  
+</section>
+
+<section class="chapter-break chapter-share" data-backdrop="assets/img/slide-28.jpg" data-beat="Chapter" data-chapter="Share">
+  <svg class="chapter-art" viewBox="0 0 1280 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path class="cb-main" d="M0 150H1280"/><path class="cb-branch" d="M420 150C540 150 560 60 680 60H1280M420 150C540 150 560 250 680 250H1280"/><g class="cb-dot"><circle cx="220" cy="150" r="12"/><circle cx="420" cy="150" r="16"/><circle cx="900" cy="150" r="12"/></g><g class="cb-dot cb-acc"><circle cx="840" cy="60" r="14"/><circle cx="840" cy="250" r="14"/></g></svg>
+  <p class="chapter-num">05 · Inner source</p>
+  <h2>How do we share<br>what works?</h2>
+  <p class="chapter-me">Last year: shared skills in a monorepo. Sharing is still the hard part.</p>
+  
+</section>
+
+<section data-beat="Discoverability" data-chapter="Share">
+  <p class="eyebrow">Inner + open source · the coordination problem</p>
+  <h2>Same need.<br><span class="accent">Different reuse paths.</span></h2>
+  <div class="cards three">
+    <article>
+      <p class="eyebrow">Same package</p>
+      <h3>Build twice</h3>
+      <p>Both teams adopt one library, then build separate internal tools around it.</p>
+    </article>
+    <article>
+      <p class="eyebrow">Different packages</p>
+      <h3>Split choices</h3>
+      <p>Similar options lead to different dependencies and maintenance work.</p>
+    </article>
+    <article>
+      <p class="eyebrow">No good fit</p>
+      <h3>Start new</h3>
+      <p>Build in-house—or start another open-source project.</p>
+    </article>
+  </div>
+  <p class="small">Agents can surface options—or generate another implementation. Who coordinates reuse?</p>
+  
+</section>
+
+<section data-beat="Reusable contribution" data-chapter="Share">
+  <p class="eyebrow">A practical answer to the reuse problem</p>
+  <h2>Make the next team's<br><span class="accent">first step easier.</span></h2>
+  <div class="flow"><span>Find it</span><b>→</b><span>Understand it</span><b>→</b><span>Verify it</span><b>→</b><span class="focus">Own it</span></div>
+  <p class="lead">Findable instructions. Verifiable behavior.<br>A named team to maintain it.</p>
+  
+</section>
+
+<section data-beat="Close" data-chapter="Share">
+  <p class="eyebrow">A question for DNB</p>
+  <h2>Who notices when<br><span class="accent">a dependency changes?</span></h2>
+  <div class="flow lifecycle"><span>Select</span><b>→</b><span>Inventory</span><b>→</b><span>Monitor</span><b>→</b><span class="focus">Owner acts</span></div>
+  <p class="lead">Could an agent gather the evidence?<br>Could every team reuse that workflow?</p>
+  
+</section>
+
+<section class="close-slide" data-beat="Close" data-chapter="Share">
+  <h2>When one team finds<br>a better way to work,<br><span class="accent">how does the next team benefit?</span></h2>
+  <p class="small">So, do we still need open source?</p>
+  <p class="meta">Mikael Svenson · Search Architect · Microsoft</p>
+  
+</section>
+
+<section data-backdrop="assets/img/slide-33.jpg" data-backdrop-opacity="0.8" data-beat="Q&A" data-chapter="Q&A">
+  <p class="eyebrow">Questions</p>
+  <h2>What becomes scarce<br>in your team?</h2>
+  <p class="lead">Implementation? Review?<br>Context? Trust? Time to learn?</p>
+  
+</section>
+
+<section class="appendix" data-beat="Sources" data-chapter="Sources">
+  <p class="eyebrow">Appendix · not part of the timed narrative</p>
+  <h2>Evidence, not a prophecy.</h2>
+  <ol class="references">
+    <li><a href="https://github.blog/news-insights/octoverse/octoverse-commits-pushes-reach-new-highs-in-2026-as-developers-build-with-agents/">GitHub Octoverse 2026</a> — platform activity, agent signals, definitions and annual window.</li>
+    <li><a href="https://github.com/microsoft-search/pnp-modern-search">PnP Modern Search</a> — GitHub REST snapshot, 2 Nov 2026; personal case, not a causal study.</li>
+    <li><a href="https://arxiv.org/abs/2609.12236">Open Source Stewardship Communities (2026)</a> — exploratory preprint, not a prevalence estimate.</li>
+    <li><a href="https://proceedings.mlr.press/v306/shi26r.html">CyberGym-E2E (ICML 2026)</a> — 920 historical vulnerabilities; benchmark capability, not a field-rate comparison.</li>
+    <li><a href="https://arxiv.org/abs/2509.22097">SecureVibeBench (ACL 2026)</a> — 105 C/C++ tasks; benchmark result, not a real-world vulnerability rate.</li>
+    <li><a href="https://pnpm.io/settings/dependency-resolution#minimumreleaseage">pnpm release-age control</a> · <a href="https://github.com/microsoft-search/pnp-modern-search/pull/5048">public feed example</a>.</li>
+    <li><a href="https://opensource.org/ai/open-source-ai-definition">OSI Open Source AI Definition 1.0</a> · <a href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next">Qwen release model card</a>.</li>
+  </ol>
+  
+</section>
+</div></div>
+<script src="vendor/dist/reveal.js"></script>
+
+<script>
+  const introMedia = document.getElementById("intro-media");
+  const introVideo = introMedia.querySelector("video");
+  const introPlay = document.getElementById("intro-play");
+  function stopIntro() {
+    introVideo.pause();
+    introVideo.currentTime = 0;
+    introMedia.classList.remove("playing");
+    introPlay.textContent = "▶ Pull out a memory";
+  }
+  function toggleIntro() {
+    if (introMedia.classList.contains("playing")) { stopIntro(); return; }
+    introVideo.currentTime = 0;
+    introMedia.classList.add("playing");
+    introPlay.textContent = "■ Stop";
+    introVideo.play().catch(stopIntro);
+  }
+  introPlay.addEventListener("click", toggleIntro);
+  introVideo.addEventListener("ended", stopIntro);
+  Reveal.on("slidechanged", stopIntro);
+  document.querySelectorAll('section[data-chapter="Models"]').forEach(slide => {
+    slide.classList.add("model-section");
+  });
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let counterFrame;
+  const counters = [...document.querySelectorAll("[data-count-to]")];
+  const countedCounters = new WeakSet();
+  function counterText(el, value) {
+    return el.closest(".repo-tables") ? value.toLocaleString("en-US") : String(value);
+  }
+  function finishCounters() {
+    cancelAnimationFrame(counterFrame);
+    counters.forEach(el => { el.textContent = counterText(el, Number(el.dataset.countTo)); });
+  }
+  function animateCounters(slide) {
+    finishCounters();
+    if (reducedMotion.matches || new URLSearchParams(location.search).has("print-pdf")) return;
+    const active = [...slide.querySelectorAll("[data-count-to]")].filter(el => {
+      if (el.closest(".fragment:not(.visible)")) return false;
+      if (el.closest(".repo-arrival")) return true;
+      if (!el.closest("[data-count-once]")) return true;
+      if (countedCounters.has(el)) return false;
+      countedCounters.add(el);
+      return true;
+    });
+    if (!active.length) return;
+    const start = performance.now();
+    active.forEach(el => { el.textContent = "0"; });
+    function tick(now) {
+      const progress = Math.min((now - start) / 1400, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      active.forEach(el => { el.textContent = counterText(el, Math.round(Number(el.dataset.countTo) * eased)); });
+      if (progress < 1) counterFrame = requestAnimationFrame(tick);
+    }
+    counterFrame = requestAnimationFrame(tick);
+  }
+  Reveal.on("ready", event => animateCounters(event.currentSlide));
+  Reveal.on("slidechanged", event => animateCounters(event.currentSlide));
+  Reveal.on("fragmentshown", event => animateCounters(event.fragment));
+  reducedMotion.addEventListener("change", finishCounters);
+  window.addEventListener("beforeprint", finishCounters);
+  // Generated backdrops are tuned for the dark stage theme; light mode keeps the plain surface.
+  if (document.documentElement.getAttribute("data-theme") === "dark") {
+    document.querySelectorAll("section[data-backdrop]").forEach(section => {
+      section.setAttribute("data-background-image", section.dataset.backdrop);
+      section.setAttribute("data-background-size", "cover");
+      section.setAttribute("data-background-opacity", section.dataset.backdropOpacity || "1");
+      section.classList.add("has-backdrop");
+    });
+  }
+  Reveal.initialize({
+    width: 1280, height: 720, margin: 0.06,
+    hash: true, controls: true, progress: true, center: false,
+    transition: "none", slideNumber: "c/t", showSlideNumber: "all",
+    showNotes: false, pdfSeparateFragments: false,
+    keyboard: { 86: () => { if (Reveal.getIndices().h === 0) toggleIntro(); } }
+  });
+</script>
+</body>
+</html>
