@@ -4,6 +4,9 @@
 
 Mikael Svenson, DNB Tech Summit, Oslo, 12 November 2026.
 
+[Play the presentation](https://wobba.github.io/dnb-tech-summit-2026/) ·
+[Download the PDF](https://wobba.github.io/dnb-tech-summit-2026/dnb-tech-summit-2026.pdf)
+
 This folder contains the 35-slide presentation without speaker notes.
 
 - `dnb-tech-summit-2026.pdf`: static slides, with no notes.
